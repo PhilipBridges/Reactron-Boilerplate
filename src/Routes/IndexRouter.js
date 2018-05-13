@@ -47,7 +47,6 @@ class IndexRouter extends React.Component {
   
 
   toggleMaximize = () => {
-    console.log(this.state)
     this.setState({ isMaximized: !this.state.isMaximized })
   }
 
@@ -59,7 +58,7 @@ class IndexRouter extends React.Component {
       <React.Fragment>
         <TitleBar
           theme="dark"
-          title="My Windows Application"
+          title="Electron"
           controls
           onCloseClick={() => app.quit()}
           onMinimizeClick={() => currentWindow.minimize()}
