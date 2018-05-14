@@ -26,17 +26,6 @@ const routes = [{
   exact: true,
   title: 'Home',
   component: Home,
-}, {
-  path: '/test',
-  exact: true,
-  title: 'Test',
-  component: '',
-},
-{
-  path: '/test2',
-  exact: true,
-  title: 'Test2',
-  component: '',
 }
 ];
 
