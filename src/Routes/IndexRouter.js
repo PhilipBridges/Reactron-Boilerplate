@@ -3,7 +3,7 @@ import {
   Switch,
   Route,
   Redirect,
-  Link
+  Link,
 } from 'react-router-dom'
 
 import { matchPath, withRouter } from 'react-router';
@@ -17,7 +17,7 @@ import {
 
 import Home from './Home'
 import Test from './Test'
-import Sidebar from '../Components/Sidebar'
+import Test2 from './Test2'
 
 const { app } = window.require('electron').remote;
 const remote = window.require('electron').remote;
@@ -33,26 +33,37 @@ const routes = [{
   exact: true,
   title: 'Test',
   component: Test,
-}];
+},
+{
+  path: '/test2',
+  exact: true,
+  title: 'Test2',
+  component: Test2,
+}
+];
 
 class IndexRouter extends React.Component {
   state = {
-    isMaximized: false
-  }
-  
-  static defaultProps = {
+    isMaximized: false,
     theme: 'dark',
     color: '#cc7f29',
   }
-  
 
   toggleMaximize = () => {
     this.setState({ isMaximized: !this.state.isMaximized })
   }
 
+  toggleTheme = () => {
+    if (this.state.theme === 'dark') {
+      return this.setState({ theme: light })
+    }
+    this.setState({ theme: 'dark' })
+  }
+
   render() {
-    const { location, theme, color } = this.props; // eslint-disable-line
+    const { location } = this.props; // eslint-disable-line
     const { replace } = this.props.history
+    const { theme, color, selected } = this.state
 
     return (
       <React.Fragment>
@@ -80,9 +91,8 @@ class IndexRouter extends React.Component {
               <NavPaneItem
                 key={route.path}
                 title={route.title}
-                icon={route.icon}
-                selected={Boolean(matchPath(location.pathname, route.path, {
-                  exact: route.exact, strict: route.strict,
+                selected={Boolean(matchPath(location.pathname, {
+                  exact: route.exact, strict: route.strict, path: route.path
                 }))}
                 onSelect={() => {
                   replace(route.path);

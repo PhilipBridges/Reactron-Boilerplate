@@ -2,7 +2,7 @@
   "name": "anotherforge",
   "productName": "anotherforge",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "My Electron application",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
