@@ -16,8 +16,6 @@ import {
 } from 'react-desktop/windows';
 
 import Home from './Home'
-import Test from './Test'
-import Test2 from './Test2'
 
 const { app } = window.require('electron').remote;
 const remote = window.require('electron').remote;
@@ -32,13 +30,13 @@ const routes = [{
   path: '/test',
   exact: true,
   title: 'Test',
-  component: Test,
+  component: '',
 },
 {
   path: '/test2',
   exact: true,
   title: 'Test2',
-  component: Test2,
+  component: '',
 }
 ];
 
