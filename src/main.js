@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
+const { Tray, Menu, MenuItem } = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -37,6 +38,40 @@ const createWindow = async () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  const template = [
+    {
+      label: 'Audio',
+      submenu: [
+        {
+          label: 'Low',
+          type: 'radio',
+          checked: true
+        },
+        {
+          label: 'High',
+          type: 'radio',
+        }
+      ],
+    },
+  ]
+
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
+
+  const ctxMenu = Menu.buildFromTemplate(template)
+  tray.setContextMenu(ctxMenu)
+  tray.setToolTip('Tray App')
+
+  mainWindow.webContents.on('context-menu', function (e, params) {
+    ctxMenu.popup(mainWindow, params.x, params.y)
+  })
+
+  mainWindow.webContents.openDevTools()
+
+  globalShortcut.register('Alt+1', function () {
+    mainWindow.show()
+  })
 };
 
 // This method will be called when Electron has finished
