@@ -1,24 +1,32 @@
 import React, { Component } from 'react'
 
-import { TextInput } from 'react-desktop/windows';
+import ChatBox from '../Components/Chatbox'
 
-export class componentName extends Component {
+import gql from "graphql-tag";
+
+import client from '../apollo'
+
+export class Chat extends Component {
+  componentDidMount() {
+    client
+      .query({
+        query: gql`
+      {
+        users {
+          name
+        }
+      }
+    `
+      })
+      .then(result => console.log(result));
+  }
   render() {
     return (
-      <div className="container" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <div style={{position: 'fixed', bottom: '0'}}>
-          <TextInput
-            ref="input"
-            background
-            label="My Input"
-            placeholder="My Input"
-            onChange={this.handleChange}
-            style={{display: 'flex', width: '40vw'}}
-          />
-        </div>
+      <div>
+        <ChatBox id={0} messages={[]} />
       </div>
     )
   }
 }
 
-export default componentName
+export default Chat
