@@ -21,13 +21,13 @@ import { ApolloProvider } from "react-apollo";
 const render = () => {
   const Routes = require('./Routes/IndexRouter.js').default;
   ReactDOM.render(
+    <ApolloProvider client={client}>
     <AppContainer>
-      <ApolloProvider client={client}>
         <Router>
           <Routes/>
         </Router>
-      </ApolloProvider>
-      </AppContainer>, document.getElementById('App'));
+      </AppContainer>
+    </ApolloProvider>, document.getElementById('App'));
 }
 
 render();

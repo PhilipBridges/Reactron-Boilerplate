@@ -8,51 +8,68 @@ import ApolloClient, {
 import { setContext } from "apollo-link-context";
 import { WebSocketLink } from 'apollo-link-ws';
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000' })
+// const httpLink = new HttpLink({ uri: 'http://localhost:4000/' })
 
-const middlewareLink = setContext(() => ({
-  headers: {
-    "Authorization": localStorage.getItem("token"),
-  }
-}));
+// const middlewareLink = setContext(() => ({
+//   headers: {
+//     "Authorization": localStorage.getItem("token"),
+//   }
+// }));
 
-const afterwareLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
-  // return the headers to the context so httpLink can read them
-  return {
-    headers: {
-      Authorization: token && `Bearer ${token}`
-    }
-  }
-});
+// const afterwareLink = setContext((_, { headers }) => {
+//   // get the authentication token from local storage if it exists
+//   const token = localStorage.getItem('token');
+//   // return the headers to the context so httpLink can read them
+//   return {
+//     headers: {
+//       ...headers,
+//       Authorization: token && `Bearer ${token}`
+//     }
+//   }
+// });
 
-const httpLinkWithMiddleware = afterwareLink.concat(
-  middlewareLink.concat(httpLink)
-);
+// const httpLinkWithMiddleware = afterwareLink.concat(
+//   middlewareLink.concat(httpLink)
+// );
 
-const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000',
-  options: {
-    reconnect: true,
-    connectionParams: {
-      token: localStorage.getItem('token'),
-    }
-  }
-});
+// const wsLink = new WebSocketLink({
+//   uri: 'ws://localhost:4000',
+//   options: {
+//     reconnect: true,
+//     connectionParams: {
+//       token: localStorage.getItem('token'),
+//     }
+//   }
+// });
 
-const link = split(
-  ({ query }) => {
-    const { kind, operation } = getMainDefinition(query);
-    return kind === "OperationDefinition" && operation === "subscription";
-  },
-  wsLink,
-  httpLinkWithMiddleware
-);
+// const link = split(
+//   ({ query }) => {
+//     const { kind, operation } = getMainDefinition(query);
+//     return kind === "OperationDefinition" && operation === "subscription";
+//   },
+//   wsLink,
+//   httpLinkWithMiddleware
+// );
 
 const cache = new InMemoryCache()
 
 export default new ApolloClient({
-  link,
-  cache
-});
+  uri: 'http://localhost:4000/',
+  fetchOptions: {
+    credentials: 'include'
+  },
+  clientState: {
+    defaults: {
+      __typename: Boolean,
+      logged: false
+    }
+  },
+  request: async (operation) => {
+    const token = await localStorage.getItem('token');
+    operation.setContext({
+      headers: {
+        Authorization: token && `Bearer ${token}`
+      }
+    });
+  }
+})

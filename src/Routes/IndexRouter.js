@@ -18,6 +18,7 @@ import {
 import Home from './Home'
 import Other from './Other'
 import Chat from './Chat'
+import Login from './Login'
 import { FriendBar } from '../Components/RDRip/'
 
 const { app } = window.require('electron').remote;
@@ -57,6 +58,12 @@ const routes = [{
   exact: true,
   title: 'Chat',
   component: Chat,
+},
+{
+  path: '/login',
+  exact: true,
+  title: 'Login',
+  component: Login,
 }
 ];
 

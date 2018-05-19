@@ -20,6 +20,7 @@ class Home extends React.Component {
       .then((data) => this.setState({ images: data.data }))
   }
   render() {
+    
     return (
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
         <button onClick={() => this.handleClick()}>Click</button>

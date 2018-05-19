@@ -1,32 +1,32 @@
 import React, { Component } from 'react'
+import gql from "graphql-tag";
+import { graphql, compose } from 'react-apollo'
 
 import ChatBox from '../Components/Chatbox'
-
-import gql from "graphql-tag";
 
 import client from '../apollo'
 
 export class Chat extends Component {
-  componentDidMount() {
-    client
-      .query({
-        query: gql`
-      {
-        users {
-          name
-        }
-      }
-    `
-      })
-      .then(result => console.log(result));
-  }
+  
   render() {
     return (
       <div>
+        {console.log(this.props)}
         <ChatBox id={0} messages={[]} />
       </div>
     )
   }
 }
 
-export default Chat
+const USER_QUERY = gql`
+  query users {
+    users {
+      id
+      name
+    }
+  }
+`
+
+export default graphql(USER_QUERY, {
+  name: 'userQuery',
+})(Chat)
