@@ -21,6 +21,8 @@ import Chat from './Chat'
 import Login from './Login'
 import { FriendBar } from '../Components/RDRip/'
 
+import ProtectedRoute from './ProtectedRoute'
+
 const { app } = window.require('electron').remote;
 const remote = window.require('electron').remote;
 const currentWindow = remote.getCurrentWindow()
@@ -113,8 +115,9 @@ class IndexRouter extends React.Component {
         />
         <Window theme={theme} color={color}>
           <NavPane openLength={200} push theme={theme} color={color}>
-            {routes.map(route => (
-              <NavPaneItem
+            {routes.map((route) => {
+              const PrivateRoute = route.component
+              return (<NavPaneItem
                 verticalAlignment="center"
                 key={route.path}
                 title={route.title}
@@ -131,9 +134,10 @@ class IndexRouter extends React.Component {
                 push
                 style={style}
               >
-                <Route exact={route.exact} path={route.path} component={route.component} />
+                <ProtectedRoute component={route.component} exact={route.exact} path={route.path} />
               </NavPaneItem>
-            ))}
+              )
+            })}
           </NavPane>
           <FriendBar canPaneToggle={false} openLength={200} push theme={theme} color={color}>
             {list.map(friend => (
