@@ -27,6 +27,4 @@ const USER_QUERY = gql`
   }
 `
 
-export default graphql(USER_QUERY, {
-  name: 'userQuery',
-})(Chat)
+export default Chat

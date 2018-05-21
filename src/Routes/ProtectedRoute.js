@@ -12,21 +12,26 @@ const PrivateRoute = ({ component: Component, data, ...rest }) => (
     {...rest}
     data={data}
     render={props =>
-      (
-        <Component {...data} {...props}/>
-      )}
+      (data.logged ? (<Component {...data} {...props} />)
+        : (
+          <Redirect to={{ pathname: '/login' }} />
+        ))}
   />
 )
 
 class ProtectedRoute extends React.Component {
   render() {
-    return <PrivateRoute data={this.props.data} {...this.props}/>
+    return <PrivateRoute data={this.props.data} {...this.props} />
   }
 }
 
 const CHECK_LOGIN = gql`
   {
     logged @client
+    info {
+      id @client
+      username @client
+    }
   }
 `;
 

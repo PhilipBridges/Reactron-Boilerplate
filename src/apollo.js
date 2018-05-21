@@ -60,8 +60,12 @@ export default new ApolloClient({
   },
   clientState: {
     defaults: {
-      __typename: Boolean,
-      logged: false
+      logged: false,
+      info: {
+        __typename: 'Profile',
+        id: '',
+        username: '',
+      }
     }
   },
   request: async (operation) => {

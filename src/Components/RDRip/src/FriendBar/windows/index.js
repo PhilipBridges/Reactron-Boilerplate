@@ -92,7 +92,7 @@ var FriendBar = (_dec = applyChildenClasses(), _dec2 = (0, _windows3.ColorContex
     value: function displayName() {
       var content = null;
       _react.Children.map(this.props.children, function (child) {
-        if (child.props.selected) console.log('asd')
+        if (child.props.selected) console.log(child.props.title)
       });
     }
   }]);

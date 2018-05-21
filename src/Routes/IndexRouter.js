@@ -13,15 +13,15 @@ import {
   TitleBar,
   NavPane,
   NavPaneItem,
+  Button
 } from 'react-desktop/windows';
-
-import Home from './Home'
-import Other from './Other'
-import Chat from './Chat'
-import Login from './Login'
 import { FriendBar } from '../Components/RDRip/'
 
+import { graphql, compose, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+
 import ProtectedRoute from './ProtectedRoute'
+import { routes } from './index'
 
 const { app } = window.require('electron').remote;
 const remote = window.require('electron').remote;
@@ -43,32 +43,6 @@ const list = [{
 }
 ]
 
-const routes = [{
-  path: '/',
-  exact: true,
-  title: 'Home',
-  component: Home,
-},
-{
-  path: '/other',
-  exact: true,
-  title: 'Other',
-  component: Other,
-},
-{
-  path: '/chat',
-  exact: true,
-  title: 'Chat',
-  component: Chat,
-},
-{
-  path: '/login',
-  exact: true,
-  title: 'Login',
-  component: Login,
-}
-];
-
 class IndexRouter extends React.Component {
   state = {
     isMaximized: false,
@@ -89,10 +63,9 @@ class IndexRouter extends React.Component {
   }
 
   render() {
-    const { location } = this.props; // eslint-disable-line
+    const { location, data } = this.props; // eslint-disable-line
     const { replace } = this.props.history
     const { theme, color, selected } = this.state
-
     return (
       <React.Fragment>
         <TitleBar
@@ -112,11 +85,22 @@ class IndexRouter extends React.Component {
           }
           }
           isMaximized={this.state.isMaximized}
-        />
+        >
+
+        </TitleBar>
         <Window theme={theme} color={color}>
+
           <NavPane openLength={200} push theme={theme} color={color}>
             {routes.map((route) => {
-              const PrivateRoute = route.component
+              if (route.title === 'Login' && data.logged) {
+                return <NavPaneItem key={'none'} push={false} />
+              }
+              if (route.title === 'Account' && !data.logged) {
+                return <NavPaneItem key={'none'} push={false} />
+              }
+              if (!data.logged && route.title !== 'Login') {
+                return <NavPaneItem key={'unlogged'} push={false}/>
+              }
               return (<NavPaneItem
                 verticalAlignment="center"
                 key={route.path}
@@ -133,11 +117,18 @@ class IndexRouter extends React.Component {
                 padding="10px 20px"
                 push
                 style={style}
-              >
-                <ProtectedRoute component={route.component} exact={route.exact} path={route.path} />
+              > {route.path !== '/login' ? (
+                <ProtectedRoute user={this.props} component={route.component} exact={route.exact} path={route.path} />
+              )
+                :
+                (
+                  <Route component={route.component} exact={route.exact} path={route.path} />
+                )
+                }
               </NavPaneItem>
               )
             })}
+
           </NavPane>
           <FriendBar canPaneToggle={false} openLength={200} push theme={theme} color={color}>
             {list.map(friend => (
@@ -160,4 +151,15 @@ class IndexRouter extends React.Component {
   }
 }
 
-export default withRouter(IndexRouter);
+const CHECK_LOGIN = gql`
+  {
+    logged @client
+    info {
+      id @client
+      username @client
+    }
+  }
+`;
+
+export default compose(
+  graphql(CHECK_LOGIN), withRouter)(IndexRouter)

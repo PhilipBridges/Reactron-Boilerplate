@@ -8,22 +8,9 @@ export class Login extends Component {
     password: '',
   }
 
-  handleSubmit(e) {
-    e.preventDefault()
-
-    const response = this.props.mutate({
-      variables: {
-        password: this.state.password,
-        email: this.state.email
-      }
-    })
-
-  }
-
   render() {
     return (
       <div>
-      {console.log(this.props)}
         <Mutation mutation={loginMutation}>
           {(loginMutation, { data }) => (
             <ApolloConsumer>
@@ -38,8 +25,9 @@ export class Login extends Component {
                   }).then((x) => { return x })
 
                   if (response.data.login) {
-                    this.setState({ logged: true })
-                    cache.writeData({ data: { logged: true } })
+                    const { name, id } = response.data.login.user
+                    await cache.writeData({ data: { logged: true, info: { __typename: 'Profile', id: id, username: name  } } })
+                    this.props.history.replace('/')
                   }
                 }}>
                   <input value={this.state.email} onChange={e => this.setState({ email: e.target.value })} id='email' type="text" />
