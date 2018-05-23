@@ -7,12 +7,12 @@ import ChatBox from '../Components/Chatbox'
 import client from '../apollo'
 
 export class Chat extends Component {
-  
+
   render() {
+    const { id, username } = this.props.info
     return (
       <div>
-        {console.log(this.props)}
-        <ChatBox id={0} messages={[]} />
+        <ChatBox username={username} id={id} messages={[]} />
       </div>
     )
   }

@@ -26,12 +26,13 @@ export class Login extends Component {
 
                   if (response.data.login) {
                     const { name, id } = response.data.login.user
-                    await cache.writeData({ data: { logged: true, info: { __typename: 'Profile', id: id, username: name  } } })
+                    const { token } = response.data.login
+                    await cache.writeData({ data: { logged: true, token: token, info: { __typename: 'Profile', id: id, username: name  } } })
                     this.props.history.replace('/')
                   }
                 }}>
-                  <input value={this.state.email} onChange={e => this.setState({ email: e.target.value })} id='email' type="text" />
-                  <input value={this.state.password} onChange={e => this.setState({ password: e.target.value })} id='password' type="text" />
+                  <input placeholder='email' value={this.state.email} onChange={e => this.setState({ email: e.target.value })} id='email' type="text" />
+                  <input placeholder='password' value={this.state.password} onChange={e => this.setState({ password: e.target.value })} id='password' type="text" />
                   <button type='submit'>Submit</button>
                 </form>
               )}

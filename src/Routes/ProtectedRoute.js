@@ -28,6 +28,7 @@ class ProtectedRoute extends React.Component {
 const CHECK_LOGIN = gql`
   {
     logged @client
+    token @client
     info {
       id @client
       username @client

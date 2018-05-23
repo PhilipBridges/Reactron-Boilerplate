@@ -1,12 +1,11 @@
 const { getUserId } = require('../../utils')
 
 const post = {
-  async createPost(parent, { title, text }, ctx, info) {
+  async createPost(parent, { text }, ctx, info) {
     const userId = getUserId(ctx)
     return ctx.db.mutation.createPost(
       {
         data: {
-          title,
           text,
           author: {
             connect: { id: userId },

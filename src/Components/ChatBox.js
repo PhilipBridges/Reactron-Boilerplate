@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import { TextInput, Text } from 'react-desktop/windows';
 
@@ -17,19 +19,12 @@ export class Chatbox extends Component {
     return null
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault()
-    const message = {
-      name: 'Borb',
-      id: this.state.id,
-      time: '2:51pm',
-      text: this.state.text
-    }
-
-    this.setState({
-      messages: [...this.state.messages, message],
-      id: this.state.id + 1,
-      text: ''
+    const response = await this.props.postMutation({
+      variables: {
+        text: this.state.text
+      }
     })
   }
 
@@ -66,4 +61,15 @@ export class Chatbox extends Component {
   }
 }
 
-export default Chatbox
+const POST_MUTATION = gql`
+  mutation($text: String!){
+    createPost(text: $text){
+      id
+      text
+    }
+  }
+`
+
+export default graphql(POST_MUTATION, {
+  name: 'postMutation'
+})(Chatbox)

@@ -92,14 +92,15 @@ class IndexRouter extends React.Component {
 
           <NavPane openLength={200} push theme={theme} color={color}>
             {routes.map((route) => {
-              if (route.title === 'Login' && data.logged) {
+              if ((route.title === 'Login' && data.logged)
+                ||
+                (route.title === 'Register' && data.logged)) {
                 return <NavPaneItem key={'none'} push={false} />
               }
-              if (route.title === 'Account' && !data.logged) {
+              if ((route.title !== 'Login' && !data.logged)
+                &&
+                (route.title !== 'Register')) {
                 return <NavPaneItem key={'none'} push={false} />
-              }
-              if (!data.logged && route.title !== 'Login') {
-                return <NavPaneItem key={'unlogged'} push={false}/>
               }
               return (<NavPaneItem
                 verticalAlignment="center"
@@ -117,7 +118,8 @@ class IndexRouter extends React.Component {
                 padding="10px 20px"
                 push
                 style={style}
-              > {route.path !== '/login' ? (
+              > {(route.path !== '/login' && route.path !== '/register') ? (
+                // Renders all routes as protected unless it's the login route
                 <ProtectedRoute user={this.props} component={route.component} exact={route.exact} path={route.path} />
               )
                 :
