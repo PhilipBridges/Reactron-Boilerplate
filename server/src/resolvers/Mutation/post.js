@@ -28,6 +28,10 @@ const post = {
 
     return ctx.db.mutation.deletePost({ where: { id } })
   },
+
+  async deleteAllPosts(parent, args, ctx, info) {
+    return ctx.db.mutation.deleteManyPosts()
+  },
 }
 
 module.exports = { post }

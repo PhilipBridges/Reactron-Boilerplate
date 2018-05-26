@@ -1,7 +1,7 @@
 # import Post from "./generated/prisma.graphql"
 
 type Query {
-  feed: [Post!]!
+  feed(orderBy: PostOrderByInput): [Post!]!
   post(id: ID!): Post
   me: User
   users: [User!]
@@ -12,6 +12,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   createPost(text: String!): Post!
   deletePost(id: ID!): Post!
+  deleteAllPosts: BatchPayload
 }
 
 type Subscription {

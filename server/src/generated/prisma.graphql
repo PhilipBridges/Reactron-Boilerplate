@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/phil-bridges-45e182/datcord/dev
-# timestamp: Tue May 22 2018 15:00:03 GMT-0400 (Eastern Daylight Time)
+# timestamp: Thu May 24 2018 11:22:45 GMT-0400 (Eastern Daylight Time)
 
 type AggregatePost {
   count: Int!
@@ -68,7 +68,7 @@ type Post implements Node {
   id: ID!
   createdAt: DateTime!
   text: String!
-  author(where: UserWhereInput): User!
+  author(where: UserWhereInput): User
 }
 
 """A connection to a list of items."""
@@ -83,7 +83,7 @@ type PostConnection {
 
 input PostCreateInput {
   text: String!
-  author: UserCreateOneWithoutPostsInput!
+  author: UserCreateOneWithoutPostsInput
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -443,6 +443,7 @@ input UserUpdateInput {
 input UserUpdateOneWithoutPostsInput {
   create: UserCreateWithoutPostsInput
   connect: UserWhereUniqueInput
+  disconnect: Boolean
   delete: Boolean
   update: UserUpdateWithoutPostsDataInput
   upsert: UserUpsertWithoutPostsInput

@@ -31,6 +31,7 @@ const style = {
   overflow: 'auto',
   display: 'flex',
   alignItems: 'center',
+  flexDirection: 'column-reverse'
 }
 
 const list = [{
@@ -117,7 +118,12 @@ class IndexRouter extends React.Component {
                 theme="light"
                 padding="10px 20px"
                 push
-                style={style}
+                style={{
+                  overflow: 'auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: route.title !== 'Home' ? 'column-reverse' : 'column'
+                }}
               > {(route.path !== '/login' && route.path !== '/register') ? (
                 // Renders all routes as protected unless it's the login route
                 <ProtectedRoute user={this.props} component={route.component} exact={route.exact} path={route.path} />

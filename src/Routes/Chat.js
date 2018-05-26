@@ -12,19 +12,12 @@ export class Chat extends Component {
     const { id, username } = this.props.info
     return (
       <div>
-        <ChatBox username={username} id={id} messages={[]} />
+        <ChatBox username={username} id={id} />
       </div>
     )
   }
 }
 
-const USER_QUERY = gql`
-  query users {
-    users {
-      id
-      name
-    }
-  }
-`
+
 
 export default Chat
