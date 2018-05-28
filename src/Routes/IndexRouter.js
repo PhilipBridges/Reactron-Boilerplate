@@ -122,11 +122,7 @@ class IndexRouter extends React.Component {
                   overflow: 'auto',
                   display: 'flex',
                   alignItems: 'center',
-                  flexDirection:
-                    route.title !== 'Home'
-                      && route.title !== 'Login'
-                      && route.title !== 'Account'
-                      ? 'column-reverse' : 'column'
+                  flexDirection: route.title !== 'Home' ? 'column-reverse' : 'column'
                 }}
               > {(route.path !== '/login' && route.path !== '/register') ? (
                 // Renders all routes as protected unless it's the login route
