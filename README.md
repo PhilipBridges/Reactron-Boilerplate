@@ -1,0 +1,1 @@
+A boilerplate for Electron that uses React/Apollo/Prisma. Uses a tweaked React Desktop UI for a discord dark-theme look. Has user auth and text chat built in, doesn't come with voice chat ($$$).
