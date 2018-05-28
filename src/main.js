@@ -6,7 +6,6 @@ const { Tray, Menu, MenuItem } = require('electron')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let mainWindow2;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
@@ -18,25 +17,11 @@ const createWindow = async () => {
     width: 1024,
     height: 800,
     frame: false,
-    webPreferences: {
-      webviewTag: true,
-      webSecurity: false
-    }
-  });
-  mainWindow2 = new BrowserWindow({
-    width: 1024,
-    height: 800,
-    frame: false,
-    webPreferences: {
-      webviewTag: true,
-      webSecurity: false
-    }
   });
 
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-  mainWindow2.loadURL(`file://${__dirname}/index.html`);
 
   // Open the DevTools.
   if (isDevMode) {
@@ -54,47 +39,9 @@ const createWindow = async () => {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-  mainWindow2.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow2 = null;
-  });
-
-  const template = [
-    {
-      label: 'Audio',
-      submenu: [
-        {
-          label: 'Low',
-          type: 'radio',
-          checked: true
-        },
-        {
-          label: 'High',
-          type: 'radio',
-        }
-      ],
-    },
-  ]
-
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
-
-  const ctxMenu = Menu.buildFromTemplate(template)
-  tray.setContextMenu(ctxMenu)
-  tray.setToolTip('Tray App')
-
-  mainWindow.webContents.on('context-menu', function (e, params) {
-    ctxMenu.popup(mainWindow, params.x, params.y)
-  })
 
   mainWindow.webContents.openDevTools()
-  mainWindow2.webContents.openDevTools()
 
-  globalShortcut.register('Alt+1', function () {
-    mainWindow.show()
-  })
 };
 
 // This method will be called when Electron has finished
