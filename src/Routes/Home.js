@@ -1,10 +1,22 @@
 import React, { Component } from 'react'
 
 export class Home extends Component {
+  state = {
+    visible: false,
+    muted: true,
+  }
   render() {
     return (
-      <div style={{ flexDirection: 'column', textAlign: 'center', color: 'white' }} >
-        <h1>Welcome, {this.props.info.username}!</h1>
+      <div>
+        <button
+          style={{ display: 'block', position: 'absolute' }}
+          onClick={() => this.setState({ visible: !this.state.visible, muted: !this.state.muted })}
+        >
+          {this.state.muted ? 'Unmute' : 'Mute'}
+          </button>
+        {this.state.visible &&
+          <webview style={{height: '0px', width: '0px'}} src="http://localhost:8080"></webview>
+        }
       </div>
     )
   }
