@@ -6,7 +6,6 @@ const { Tray, Menu, MenuItem } = require('electron')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let mainWindow2;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
@@ -17,26 +16,11 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: 1024,
     height: 800,
-    frame: false,
-    webPreferences: {
-      webviewTag: true,
-      webSecurity: false
-    }
+    frame: false
   });
-  mainWindow2 = new BrowserWindow({
-    width: 1024,
-    height: 800,
-    frame: false,
-    webPreferences: {
-      webviewTag: true,
-      webSecurity: false
-    }
-  });
-
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-  mainWindow2.loadURL(`file://${__dirname}/index.html`);
 
   // Open the DevTools.
   if (isDevMode) {
@@ -53,12 +37,6 @@ const createWindow = async () => {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
-  });
-  mainWindow2.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow2 = null;
   });
 
   const template = [
@@ -90,7 +68,6 @@ const createWindow = async () => {
   })
 
   mainWindow.webContents.openDevTools()
-  mainWindow2.webContents.openDevTools()
 
   globalShortcut.register('Alt+1', function () {
     mainWindow.show()
