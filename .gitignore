@@ -4,3 +4,8 @@ out
 .env
 notes.txt
 Junk
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
