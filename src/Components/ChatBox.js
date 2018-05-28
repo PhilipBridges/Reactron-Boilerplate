@@ -64,7 +64,7 @@ export class Chatbox extends Component {
               >
                 {data.feed.map(msg => {
                   return (<div key={msg.id}>
-                    <span>({moment(msg.createdAt).startOf('hour').fromNow()}) {msg.author.name}:</span> <span>{msg.text}</span>
+                    <span style={{fontSize: '10px'}} >({moment(msg.createdAt).format('MMMM Do, h:mm:ss a')}) </span> <span>{msg.author.name}: {msg.text}</span>
                     <br />
                   </div>
                   )
